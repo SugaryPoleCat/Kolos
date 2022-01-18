@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kolos
 {
@@ -37,7 +33,7 @@ namespace Kolos
         /// <returns></returns>
         public override string ToString()
         {
-            string result = $" {this.imie} {this.nazwisko} ({this.pesel})";
+            string result = $"{this.imie} {this.nazwisko} ({this.pesel})";
             return result;
         }
     }
