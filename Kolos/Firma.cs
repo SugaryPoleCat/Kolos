@@ -50,6 +50,7 @@ namespace Kolos
         {
             // sortuj liste zarejestrowanychTelefonow wedlug oplat.
             // Czyli napewno trzeba bedzie sumowac wszystkie oplaty, telefon po teleofnu.
+            //  napewno trzeba uzyuc CompareTo
             for(int i = 0; i < zarejestrowaneTelefony.Count; i++)
             {
                 //Telefon telefon = zarejestrowaneTelefony.Find(tel => tel.);
