@@ -6,9 +6,9 @@ namespace Kolos
 {
     abstract class Telefon : IWydarzenieCykliczne, IComparable<Telefon>
     {
-        string numer;
+        public string numer;
         Osoba wlasiciel;
-        List<decimal> rozmowy;
+        public List<decimal> rozmowy;
         static decimal oplataZaMinute;
 
 
@@ -24,12 +24,18 @@ namespace Kolos
         /// </summary>
         public Telefon(string _numer, Osoba _wlasciciel)
         {
-            if (string.IsNullOrEmpty(_numer) || _numer.Length != 9)
+            try
             {
-                // mozna dopisac wiadomosc w ();
-                throw new FormatException();
+                if (string.IsNullOrEmpty(_numer) || _numer.Length != 9)
+                {
+                    // mozna dopisac wiadomosc w ();
+                    throw new FormatException();
+                }
             }
-
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+            }
             this.numer = _numer;
             this.wlasiciel = _wlasciciel;
             //pusta lista
@@ -69,8 +75,10 @@ namespace Kolos
         }
 
         // porownaj this do _telefon
-        public decimal CompareTo(Telefon _telefon)
+        public decimal CompareTo(Telefon telefonDoPorownania)
         {
+            // stary kods
+            /**
             decimal result = 0;
             // To jest dzialanie dla THIS, czyli dla klasy
             decimal suma = 0;
@@ -97,8 +105,40 @@ namespace Kolos
                 result = sumaDoPorownania.CompareTo(suma);
             }
             return result;
+            */
+
+            // nowy kod
+            if (telefonDoPorownania == null)
+            {
+                return 1m;
+            }
+            if (telefonDoPorownania != null)
+            {
+                decimal naszaSuma = sumaRozmow(this.rozmowy);
+                decimal ichSuma = sumaRozmow(telefonDoPorownania.rozmowy);
+
+                return naszaSuma.CompareTo(ichSuma);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
+        private decimal sumaRozmow(List<decimal> rozmowa)
+        {
+            decimal suma = 0m;
+            for (int i = 0; i < rozmowa.Count; i++)
+            {
+                suma += rozmowa[i];
+            }
+            return suma;
+        }
+
+        /// <summary>
+        /// Dupa
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             decimal sum = 0;
@@ -109,8 +149,6 @@ namespace Kolos
             string result = $"{wlasiciel.ToString()}, tel.:{this.numer} ({sum.ToString("C")})";
             return result;
         }
-
-
 
         int IComparable<Telefon>.CompareTo(Telefon other)
         {
